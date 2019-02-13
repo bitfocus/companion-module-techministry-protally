@@ -13,7 +13,7 @@ function instance(system, id, config) {
 
 	self.actions(); // export actions
 	//self.init_presets();
-    //self.init_tcp();
+	//self.init_tcp();
 
 	return self;
 }
@@ -23,30 +23,30 @@ instance.prototype.init = function() {
 
 	debug = self.debug;
 	log = self.log;
-    
-    self.status(self.STATUS_UNKNOWN);
-    
+
+	self.status(self.STATUS_UNKNOWN);
+
 	//self.init_presets();
-    self.init_tcp();
-};
+	self.init_tcp();
+}
 
 instance.prototype.updateConfig = function(config) {
 	var self = this;
 	self.config = config;
-    
-    if (self.tcp !== undefined) {
-        self.tcp.destroy();
-        delete self.tcp;
-    }
-    
+
+	if (self.tcp !== undefined) {
+		self.tcp.destroy();
+		delete self.tcp;
+	}
+
 	self.init_tcp();
-};
+}
 
 instance.prototype.init_tcp = function() {
 	var self = this;
-    
-    var host = self.config.host;
-    var port = self.config.port;
+
+	var host = self.config.host;
+	var port = self.config.port;
 
 	if (self.config.host !== undefined) {
 		self.tcp = new tcp(host, port);
@@ -65,7 +65,7 @@ instance.prototype.init_tcp = function() {
 			//self.sendcmd("");
 		});
 	}
-};
+}
 
 // Return config fields for web config
 instance.prototype.config_fields = function () {
@@ -83,12 +83,12 @@ instance.prototype.config_fields = function () {
 			type: 'textinput',
 			id: 'port',
 			label: 'Target Port',
-            default: '9800',
+			default: '9800',
 			width: 5,
 			regex: self.REGEX_PORT
 		}
 	]
-};
+}
 
 // When module gets deleted
 instance.prototype.destroy = function() {
@@ -99,7 +99,7 @@ instance.prototype.destroy = function() {
 	}
 
 	debug("destroy", self.id);
-};
+}
 
 instance.prototype.init_presets = function () {
 	var self = this;
@@ -111,137 +111,138 @@ instance.prototype.init_presets = function () {
 instance.prototype.actions = function(system) {
 	var self = this;
 
-	self.system.emit('instance_actions', self.id, {
-        'tally': {
-            label: 'Activate Tally',
-            options: [
-            {
-                type: 'dropdown',
-                label: 'Window Number',
-                id: 'windownumber',
-                default: '1',
-                choices: [
-                    {id: '1', label: 'Window 1'},
-                    {id: '2', label: 'Window 2'},
-                    {id: '3', label: 'Window 3'},
-                    {id: '4', label: 'Window 4'}
-                ],
-                tooltip: 'Tally Box Window to target.'
-            },
-            {
-                type: 'dropdown',
-                label: 'Mode',
-                id: 'mode',
-                default: 'Program',
-                choices: [
-                    {id: 'Preview', label: 'Preview'},
-                    {id: 'Program', label: 'Program'},
-                    {id: 'PreviewProgram', label: 'Preview + Program'}
-                ],
-                tooltip: 'Tally Box Mode.'
-            },
-            {
-                type: 'textinput',
-                label: 'Label Text',
-                id: 'label',
-                default: '',
-                tooltip: 'Label Text to Display in the Tally Box.'
-            },
-            {
-                type: 'textinput',
-                label: 'Box Color',
-                id: 'boxcolor',
-                default: '#FF0000',
-                tooltip: 'Box Color to set.',
-                regex: '/^#(?:[0-9a-fA-F]{3}){1,2}$/'
-            }
-            ]
-        },
-        'clear': {
-            label: 'Clear Tally Window',
-            options: [{
-                type: 'dropdown',
-                label: 'Window Number',
-                id: 'windownumber',
-                default: '1',
-                choices: [
-                    {id: '1', label: 'Window 1'},
-                    {id: '2', label: 'Window 2'},
-                    {id: '3', label: 'Window 3'},
-                    {id: '4', label: 'Window 4'}
-                ],
-                tooltip: 'Tally Box Window to target.'
-            }]
-        },
-        'beacon': {
-            label: 'Activate Beacon',
-            options: [{
-                type: 'dropdown',
-                label: 'Window Number',
-                id: 'windownumber',
-                default: '1',
-                choices: [
-                    {id: '1', label: 'Window 1'},
-                    {id: '2', label: 'Window 2'},
-                    {id: '3', label: 'Window 3'},
-                    {id: '4', label: 'Window 4'}
-                ],
-                tooltip: 'Tally Box Window to target.'
-            },
-            {
-                type: 'textinput',
-                label: 'Label Text',
-                id: 'label',
-                default: '',
-                tooltip: 'Label Text to Display in the Tally Box.'
-            },
-            {
-                type: 'textinput',
-                label: 'Box Color',
-                id: 'boxcolor',
-                default: '#FF0000',
-                tooltip: 'Box Color to set.',
-                regex: '/^#(?:[0-9a-fA-F]{3}){1,2}$/'
-            },
-            {
-                type: 'textinput',
-                label: 'Beacon Rate',
-                id: 'beaconrate',
-                default: '1000',
-                tooltip: 'The rate the box should flash on the screen, in milliseconds.',
-                regex: self.REGEX_NUMBER
-            }
-            ]
-        }
+	self.setActions({
+		'tally': {
+			label: 'Activate Tally',
+			options: [
+				{
+					type: 'dropdown',
+					label: 'Window Number',
+					id: 'windownumber',
+					default: '1',
+					choices: [
+						{id: '1', label: 'Window 1'},
+						{id: '2', label: 'Window 2'},
+						{id: '3', label: 'Window 3'},
+						{id: '4', label: 'Window 4'}
+					],
+					tooltip: 'Tally Box Window to target.'
+				},
+				{
+					type: 'dropdown',
+					label: 'Mode',
+					id: 'mode',
+					default: 'Program',
+					choices: [
+						{id: 'Preview', label: 'Preview'},
+						{id: 'Program', label: 'Program'},
+						{id: 'PreviewProgram', label: 'Preview + Program'}
+					],
+					tooltip: 'Tally Box Mode.'
+				},
+				{
+					type: 'textinput',
+					label: 'Label Text',
+					id: 'label',
+					default: '',
+					tooltip: 'Label Text to Display in the Tally Box.'
+				},
+				{
+					type: 'textinput',
+					label: 'Box Color',
+					id: 'boxcolor',
+					default: '#FF0000',
+					tooltip: 'Box Color to set.',
+					regex: '/^#(?:[0-9a-fA-F]{3}){1,2}$/'
+				}
+			]
+		},
+		'clear': {
+			label: 'Clear Tally Window',
+			options: [{
+				type: 'dropdown',
+				label: 'Window Number',
+				id: 'windownumber',
+				default: '1',
+				choices: [
+					{id: '1', label: 'Window 1'},
+					{id: '2', label: 'Window 2'},
+					{id: '3', label: 'Window 3'},
+					{id: '4', label: 'Window 4'}
+				],
+				tooltip: 'Tally Box Window to target.'
+			}]
+		},
+		'beacon': {
+			label: 'Activate Beacon',
+			options: [
+				{
+					type: 'dropdown',
+					label: 'Window Number',
+					id: 'windownumber',
+					default: '1',
+					choices: [
+						{id: '1', label: 'Window 1'},
+						{id: '2', label: 'Window 2'},
+						{id: '3', label: 'Window 3'},
+						{id: '4', label: 'Window 4'}
+					],
+					tooltip: 'Tally Box Window to target.'
+				},
+				{
+					type: 'textinput',
+					label: 'Label Text',
+					id: 'label',
+					default: '',
+					tooltip: 'Label Text to Display in the Tally Box.'
+				},
+				{
+					type: 'textinput',
+					label: 'Box Color',
+					id: 'boxcolor',
+					default: '#FF0000',
+					tooltip: 'Box Color to set.',
+					regex: '/^#(?:[0-9a-fA-F]{3}){1,2}$/'
+				},
+				{
+					type: 'textinput',
+					label: 'Beacon Rate',
+					id: 'beaconrate',
+					default: '1000',
+					tooltip: 'The rate the box should flash on the screen, in milliseconds.',
+					regex: self.REGEX_NUMBER
+				}
+			]
+		}
 	});
 }
 
 instance.prototype.action = function(action) {
 	var self = this;
 	var options = action.options;
-    
-    var cmd;
-    
-    var ProTallyObj = {};
+
+	var cmd;
+
+	var ProTallyObj = {};
 
 	switch(action.action) {
-        case 'tally':
-            ProTallyObj.windowNumber = options.windownumber;
-            ProTallyObj.mode = options.mode;
-            ProTallyObj.label = options.label.substring(0, 15);
-            ProTallyObj.color = options.boxcolor;
-            break;
-        case 'clear':
-            ProTallyObj.windowNumber = options.windownumber;
-            ProTallyObj.mode = "Clear";
-            break;
-        case 'beacon':
-            ProTallyObj.windowNumber = options.windownumber;
-            ProTallyObj.mode = "Beacon";
-            ProTallyObj.label = options.label.substring(0, 15);;
-            ProTallyObj.color = options.boxcolor;
-            ProTallyObj.beaconrate = options.beaconrate;
-            break;
+		case 'tally':
+			ProTallyObj.windowNumber = options.windownumber;
+			ProTallyObj.mode = options.mode;
+			ProTallyObj.label = options.label.substring(0, 15);
+			ProTallyObj.color = options.boxcolor;
+			break;
+		case 'clear':
+			ProTallyObj.windowNumber = options.windownumber;
+			ProTallyObj.mode = "Clear";
+			break;
+		case 'beacon':
+			ProTallyObj.windowNumber = options.windownumber;
+			ProTallyObj.mode = "Beacon";
+			ProTallyObj.label = options.label.substring(0, 15);
+			ProTallyObj.color = options.boxcolor;
+			ProTallyObj.beaconrate = options.beaconrate;
+			break;
 	}
 
 	//send the ProTally object
@@ -252,7 +253,7 @@ instance.prototype.action = function(action) {
 			debug('Socket not connected. ProTally may not be active at the destination host/port.');
 		}
 	}
-};
+}
 
 instance_skel.extendedBy(instance);
 exports = module.exports = instance;
